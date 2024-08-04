@@ -58,7 +58,7 @@ def extract_papers_with_keywords(subjects="cs.AI,cs.LG", date=datetime.now(), re
                 date_header = h3
                 break
 
-        assert date_header, "Date header not found"
+        assert date_header, f"Found no arxiv releases dated: {date.date()}"
 
         # Find all daily papers
         next_sibling = date_header.find_next_sibling()
@@ -120,7 +120,7 @@ def extract_papers_with_keywords(subjects="cs.AI,cs.LG", date=datetime.now(), re
 
 def main():
     args = parse_args()
-    
+
     assert args.subjects is not None
     assert args.date is not None
     
