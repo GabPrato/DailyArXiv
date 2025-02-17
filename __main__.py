@@ -1,5 +1,6 @@
 import argparse
 import requests
+import time
 from bs4 import BeautifulSoup
 import re
 from datetime import datetime
@@ -42,8 +43,9 @@ def parse_args():
 def extract_papers_with_keywords(subjects="cs.AI,cs.LG", date=datetime.now(), required_keywords=[], any_keywords=[]):
     daily_paper_urls = {}
     for subject in subjects:
-        response = requests.get(f"https://arxiv.org/list/{subject}/recent?skip=0&show=10000")
+        response = requests.get(f"https://arxiv.org/list/{subject}/recent?skip=0&show=2000")
         assert response.status_code == 200, f"Webpage returned code: {response.status_code}"
+        time.sleep(15) # Respecting the crawl-delay (https://arxiv.org/robots.txt)
 
         # Parse the content of the page
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -78,6 +80,7 @@ def extract_papers_with_keywords(subjects="cs.AI,cs.LG", date=datetime.now(), re
     for title, url in daily_paper_urls.items():
         # Get the paper's abstract page content
         response = requests.get(url)
+        time.sleep(15) # Respecting the crawl-delay (https://arxiv.org/robots.txt)
         if response.status_code != 200:
             print(f"Failed to retrieve paper {url}")
             continue
