@@ -1,4 +1,7 @@
-Filters the abstracts of all arXiv papers released on the specified date using the specified keywords.
+Filters the abstracts of all arXiv papers released on the specified date using the specified keywords. E.g.:
+```bash
+python -m DailyArXiv --subjects="cs.AI" --required-keywords="LLM"
+```
 
 # Requirements
 * requests
